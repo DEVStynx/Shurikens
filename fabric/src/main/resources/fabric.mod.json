@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "shurikens",
   "version": "${version}",
-  "name": "Shurikens Mod",
+  "name": "Shurikens - Mod",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "de.stynxyxy.shurikens.fabric.ExampleModFabric"
+      "de.stynxyxy.shurikens.fabric.ShurikensModFabric"
     ],
     "client": [
-      "de.stynxyxy.shurikens.fabric.client.ExampleModFabricClient"
+      "de.stynxyxy.shurikens.fabric.client.ShurikensModFabricClient"
     ]
   },
   "mixins": [
@@ -27,9 +27,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.17.2",
-    "minecraft": "~1.21",
+    "minecraft": "~1.21.4",
     "java": ">=21",
-    "architectury": ">=13.0.8",
     "fabric-api": "*"
   },
   "suggests": {
