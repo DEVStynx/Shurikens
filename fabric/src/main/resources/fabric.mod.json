@@ -18,6 +18,9 @@
 		"main": [
 			"de.stynxyxy.shurikens.ShurikensMod"
 		],
+		"client": [
+			"de.stynxyxy.shurikens.ShurikensModClient"
+		],
 		"fabric-datagen": [
 			"de.stynxyxy.shurikens.ShurikensModDataGenerator"
 		]
