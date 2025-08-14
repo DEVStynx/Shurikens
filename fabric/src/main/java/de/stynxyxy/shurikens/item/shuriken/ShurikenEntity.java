@@ -6,22 +6,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ShurikenEntity extends ThrownItemEntity {
-    private boolean inGround = false;
-    private BlockPos stuckPos = null;
     public ShurikenEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -42,43 +37,7 @@ public class ShurikenEntity extends ThrownItemEntity {
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
-        if (!this.inGround) {
-            this.inGround = true;
-            this.setVelocity(0, 0, 0);
-            this.setNoGravity(true);
-            this.stuckPos = blockHitResult.getBlockPos();
-            this.setPosition(blockHitResult.getPos());
-        }
+        MinecraftClient.getInstance().player.sendMessage(Text.of("Hit ground!"));
         super.onBlockHit(blockHitResult);
-    }
-
-    @Override
-    public void tick() {
-        if (inGround) {
-            this.setVelocity(0, 0, 0);
-            this.setNoGravity(true);
-            // Prüfe, ob der Block noch existiert
-            if (stuckPos != null && this.getWorld().isAir(stuckPos)) {
-                this.inGround = false;
-                this.setNoGravity(false);
-                this.stuckPos = null;
-            }
-        } else {
-            super.tick();
-        }
-    }
-
-    @Override
-    public void onPlayerCollision(PlayerEntity player) {
-        if (!this.getWorld().isClient && inGround) {
-            if (player.getInventory().insertStack(this.asItemStack())) {
-                this.discard();
-            }
-        }
-        super.onPlayerCollision(player);
-    }
-
-    private ItemStack asItemStack() {
-        return new ItemStack(getDefaultItem());
     }
 }
